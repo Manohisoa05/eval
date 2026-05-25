@@ -332,230 +332,236 @@ export default function Product() {
     // -----------------------
     return (
       <div className="shop-home">
-        <section className="hero-banner">
-          <img src={heroImg} alt="Banniere" className="hero-img" />
-          <div className="hero-overlay">
-            <div className="hero-label">SAMPLE 2</div>
-            <div className="hero-title">EXCEPTIONCOACEAT</div>
-            <p className="hero-subtitle">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
-          </div>
-        </section>
+        <div className="shop-layout">
+          <div className="shop-main">
+            {/* hero banner removed as requested */}
 
-        <section className="popular-section">
-          {/* DEBUT FILTRE DE RECHERCHE */}
-          <div className="row mb-4">
-            <div className="col-md-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Recherche par nom"
-                value={searchName}
-                onChange={(e) => setSearchName(e.target.value)}
-              />
-            </div>
-
-            <div className="col-md-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Catégorie"
-                value={searchCategory}
-                onChange={(e) => setSearchCategory(e.target.value)}
-              />
-            </div>
-
-            <div className="col-md-3">
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Prix minimum"
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-              />
-            </div>
-
-            <div className="col-md-3">
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Prix maximum"
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-              />
-            </div>
-          </div>
-          {/* FIN FILTRE DE RECHERCHE */}
-          <div className="section-title">PRODUITS POPULAIRES</div>
-          {popular.length === 0 ? (
-            <div className="text-center text-muted py-4">
-              Aucun produit disponible.
-            </div>
-          ) : (
-            <div className="row g-4">
-              {popular.map((p) => (
-                <div key={p.id} className="col-6 col-md-3">
-                  <div className="shop-card">
-                    <span
-                      className={getMark(p.date_availability_produit).color}
-                    >
-                      {getMark(p.date_availability_produit).text}
-                    </span>
-                    <button
-                      type="button"
-                      className="wish-btn"
-                      aria-label="Favori"
-                    >
-                      ♡
-                    </button>
-                    <Link to={`/product/${p.id}`} className="shop-card-media">
-                      <img
-                        loading="lazy"
-                        src={p.image || "/assets/hero.png"}
-                        alt={p.name}
-                      />
-                    </Link>
-                    <div className="shop-card-body">
-                      <div className="shop-card-subtitle">{p.name}</div>
-                      <div className="shop-card-title">{p.category}</div>
-                      <div className="shop-card-price">
-                        {p.price_ttc?.toFixed(2)} €
-                      </div>
-                      {/* <button
-                        type="button"
-                        className="btn btn-sm btn-outline-primary mt-2"
-                        onClick={() => handleAddToCart(p)}
-                      >
-                        Ajouter
-                      </button> */}
-                    </div>
-                  </div>
+            <section className="popular-section">
+              {/* DEBUT FILTRE DE RECHERCHE */}
+              <div className="row mb-4">
+                <div className="col-md-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Recherche par nom"
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                  />
                 </div>
-              ))}
-            </div>
-          )}
 
-          <div className="text-end mt-3">
-            <Link to="/product" className="all-products-link">
-              Tous les produits ›
-            </Link>
-          </div>
-        </section>
-
-        <section className="promo-banner">
-          <div className="promo-inner">
-            <span>20% OFF ON CLOTHES</span>
-            <small>SEE MORE</small>
-          </div>
-        </section>
-
-        <section className="cart-section">
-          <div className="section-title">PANIER</div>
-          {cart.length === 0 ? (
-            <div className="text-center text-muted py-3">Panier vide.</div>
-          ) : (
-            <div className="cart-box">
-              {cart.map((c) => (
-                <div key={c.id_product} className="cart-row">
-                  <div className="cart-info">
-                    <div className="cart-title">{c.name}</div>
-                    <div className="cart-price">
-                      {Number(c.price).toFixed(2)} €
-                    </div>
-                  </div>
-                  <div className="cart-actions">
-                    <input
-                      type="number"
-                      min="1"
-                      value={c.quantity}
-                      onChange={(e) =>
-                        updateCartQty(c.id_product, e.target.value)
-                      }
-                      className="form-control form-control-sm"
-                      style={{ width: 70 }}
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-danger"
-                      onClick={() => handleRemoveFromCart(c.id_product)}
-                    >
-                      Supprimer
-                    </button>
-                  </div>
+                <div className="col-md-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Catégorie"
+                    value={searchCategory}
+                    onChange={(e) => setSearchCategory(e.target.value)}
+                  />
                 </div>
-              ))}
-              <div className="cart-footer">
-                <div className="cart-total">
-                  Total: {Number(computeTotals(cart).total_paid).toFixed(2)} €
+
+                <div className="col-md-3">
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Prix minimum"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                  />
                 </div>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleCheckout}
-                  disabled={checkingOut}
-                >
-                  {checkingOut
-                    ? "Validation..."
-                    : "Valider (Paiement a la livraison)"}
-                </button>
+
+                <div className="col-md-3">
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Prix maximum"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                  />
+                </div>
               </div>
-              {checkoutStatus ? (
-                <div
-                  className={`alert mt-3 ${checkoutStatus.ok ? "alert-success" : "alert-danger"}`}
-                >
-                  {checkoutStatus.message}
+              {/* FIN FILTRE DE RECHERCHE */}
+              <div className="section-title">PRODUITS POPULAIRES</div>
+              {popular.length === 0 ? (
+                <div className="text-center text-muted py-4">
+                  Aucun produit disponible.
                 </div>
-              ) : null}
-            </div>
-          )}
-        </section>
-        <section className="cart-section">
-          {abandonedCarts.length > 0 && (
-            <section className="mb-4">
-              <div className="card shadow-sm border-0">
-                <div className="card-header bg-warning-subtle">
-                  <h5 className="mb-0">🛒 Paniers non validés</h5>
-                </div>
-
-                <div className="card-body">
-                  {abandonedCarts.map((cart) => (
-                    <div
-                      key={cart.id}
-                      className="d-flex justify-content-between align-items-center border rounded p-3 mb-2"
-                    >
-                      <div>
-                        <div>
-                          <strong>Panier #{cart.id}</strong>
+              ) : (
+                <div className="row g-4">
+                  {popular.map((p) => (
+                    <div key={p.id} className="col-6 col-md-3">
+                      <div className="shop-card">
+                        <span
+                          className={getMark(p.date_availability_produit).color}
+                        >
+                          {getMark(p.date_availability_produit).text}
+                        </span>
+                        <button
+                          type="button"
+                          className="wish-btn"
+                          aria-label="Favori"
+                        >
+                          ♡
+                        </button>
+                        <Link
+                          to={`/product/${p.id}`}
+                          className="shop-card-media"
+                        >
+                          <img
+                            loading="lazy"
+                            src={p.image || "/assets/hero.png"}
+                            alt={p.name}
+                          />
+                        </Link>
+                        <div className="shop-card-body">
+                          <div className="shop-card-subtitle">{p.name}</div>
+                          <div className="shop-card-title">{p.category}</div>
+                          <div className="shop-card-price">
+                            {p.price_ttc?.toFixed(2)} €
+                          </div>
+                          {/* <button
+                            type="button"
+                            className="btn btn-sm btn-outline-primary mt-2"
+                            onClick={() => handleAddToCart(p)}
+                          >
+                            Ajouter
+                          </button> */}
                         </div>
-
-                        <small className="text-muted">
-                          Créé le{" "}
-                          {new Date(cart.date_add).toLocaleDateString("fr-FR")}
-                        </small>
                       </div>
-
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={async () => {
-                          const cached = getCachedCustomer();
-
-                          await restoreRemoteCart(cart.id, cached.customer.id);
-
-                          setCart(getCartFiltered(cached.customer.id));
-
-                          alert("Panier restauré");
-                        }}
-                      >
-                        Restaurer
-                      </button>
                     </div>
                   ))}
                 </div>
+              )}
+
+              <div className="text-end mt-3">
+                <Link to="/product" className="all-products-link">
+                  Tous les produits ›
+                </Link>
               </div>
             </section>
-          )}
-        </section>
+
+            <section className="promo-banner">
+              <div className="promo-inner">
+                <span>20% OFF ON CLOTHES</span>
+                <small>SEE MORE</small>
+              </div>
+            </section>
+
+            <section className="cart-section">
+              {abandonedCarts.length > 0 && (
+                <section className="mb-4">
+                  <div className="card shadow-sm border-0">
+                    <div className="card-header bg-warning-subtle">
+                      <h5 className="mb-0">🛒 Paniers non validés</h5>
+                    </div>
+
+                    <div className="card-body">
+                      {abandonedCarts.map((cart) => (
+                        <div
+                          key={cart.id}
+                          className="d-flex justify-content-between align-items-center border rounded p-3 mb-2"
+                        >
+                          <div>
+                            <div>
+                              <strong>Panier #{cart.id}</strong>
+                            </div>
+
+                            <small className="text-muted">
+                              Créé le{" "}
+                              {new Date(cart.date_add).toLocaleDateString(
+                                "fr-FR",
+                              )}
+                            </small>
+                          </div>
+
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={async () => {
+                              const cached = getCachedCustomer();
+
+                              await restoreRemoteCart(
+                                cart.id,
+                                cached.customer.id,
+                              );
+
+                              setCart(getCartFiltered(cached.customer.id));
+
+                              alert("Panier restauré");
+                            }}
+                          >
+                            Restaurer
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
+            </section>
+          </div>
+
+          <aside className="cart-panel">
+            <section className="cart-section floating-cart">
+              <div className="section-title">PANIER</div>
+              {cart.length === 0 ? (
+                <div className="text-center text-muted py-3">Panier vide.</div>
+              ) : (
+                <div className="cart-box">
+                  {cart.map((c) => (
+                    <div key={c.id_product} className="cart-row">
+                      <div className="cart-info">
+                        <div className="cart-title">{c.name}</div>
+                        <div className="cart-price">
+                          {Number(c.price).toFixed(2)} €
+                        </div>
+                      </div>
+                      <div className="cart-actions">
+                        <input
+                          type="number"
+                          min="1"
+                          value={c.quantity}
+                          onChange={(e) =>
+                            updateCartQty(c.id_product, e.target.value)
+                          }
+                          className="form-control form-control-sm"
+                          style={{ width: 70 }}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => handleRemoveFromCart(c.id_product)}
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="cart-footer">
+                    <div className="cart-total">
+                      Total: {Number(computeTotals(cart).total_paid).toFixed(2)} €
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleCheckout}
+                      disabled={checkingOut}
+                    >
+                      {checkingOut
+                        ? "Validation..."
+                        : "Valider (Paiement a la livraison)"}
+                    </button>
+                  </div>
+                  {checkoutStatus ? (
+                    <div
+                      className={`alert mt-3 ${checkoutStatus.ok ? "alert-success" : "alert-danger"}`}
+                    >
+                      {checkoutStatus.message}
+                    </div>
+                  ) : null}
+                </div>
+              )}
+            </section>
+          </aside>
+        </div>
       </div>
     );
   }
