@@ -7,6 +7,7 @@ import Commandes from './pages/Commandes'
 import Accueil from './pages/Accueil'
 import AddCommande from './pages/AddCommande'
 import { getCachedCustomer, clearCachedCustomer } from './services/auth'
+import RemoveStock from './pages/RemoveStock'
 
 function NavbarAuth() {
   const navigate = useNavigate()
@@ -51,7 +52,11 @@ function App() {
         <div className="container d-flex align-items-center justify-content-between">
           <Link to="/" className="brand">Ma Boutique</Link>
           <NavbarAuth />
-          <Link to="/commandes" className="btn btn-outline-primary btn-sm">Mes Commandes</Link>
+          <div className="d-flex align-items-center gap-2">
+            <Link to="/product" className="btn btn-outline-primary btn-sm">Produits</Link>
+            <Link to="/removeStock" className="btn btn-outline-danger btn-sm">RemoveStock</Link>
+            <Link to="/commandes" className="btn btn-outline-primary btn-sm">Mes Commandes</Link>
+          </div>
         </div>
       </header>
 
@@ -63,6 +68,7 @@ function App() {
           <Route path="/product/:id" element={<Product />} />
           <Route path="/commandes" element={<Commandes />} />
           <Route path="/addCommande/:id" element={<AddCommande />} />
+          <Route path="/removeStock" element={<RemoveStock />} />
         </Routes>
       </main>
 

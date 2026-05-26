@@ -50,6 +50,11 @@ export async function fetchProduct(idProduct) {
   return fetchWithCache(url, async () => fetchXmlResponse(url), CACHE_TTL);
 }
 
+export async function fetchCategories() {
+  const url = buildUrl(`categories?output_format=XML&display=full`);
+  return fetchWithCache(url, async () => fetchXmlResponse(url), CACHE_TTL);
+}
+
 export async function fetchProductsDetailed() {
   const xml = await fetchProducts();
   if (!xml) return [];
@@ -299,12 +304,7 @@ function getHoursDiff(date1, date2) {
   return diffInMs / (1000 * 60 * 60);
 }
 
-function fetchCategories() {
-  const url = buildUrl(`categories?output_format=XML&display=full`);
-  return fetchWithCache(url, async () => fetchXmlResponse(url), CACHE_TTL);
-}
-
-async function fetchCategoriesMapped() {
+export async function fetchCategoriesMapped() {
   const xml = await fetchCategories();
   const parsed = xmlToJson(xml);
 
@@ -322,7 +322,6 @@ async function fetchCategoriesMapped() {
     name: extractText(cat.name) || "Sans nom",
   }));
 }
-
 async function getCategoryName(idCategory) {
   const categories = await fetchCategoriesMapped();
 
